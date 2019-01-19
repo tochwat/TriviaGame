@@ -1,9 +1,4 @@
-// $(document).ready(() => {
-
-// });
-
-
-
+$(document).ready(() => {
 
 //variables to store the HTML tags
 const quizContainer = document.getElementById('quiz');
@@ -14,16 +9,15 @@ const submitButton = document.getElementById('submit');
 $('#start').on('click', function() {
     $('#start').remove();
     game.createQuiz();
-    console.log("you have this many questions: " + questions.length);
+});
+
+$(document).on('click', '#reset', function() {
+    game.resetGame();
 });
 
 //on click function for answer buttons
 $(document).on('click', '.answer-button', function(e) {
     game.answerClicked(e);
-
-    //clear the timer from the screen and clear the countdown with clearInterval
-    $('#timer').html("");
-    clearInterval(gameTimer);
 });
 
 //variables
@@ -31,6 +25,7 @@ var currentQuestion = 0;
 var numCorrect = 0;
 var numIncorrect = 0;
 var numUnanswered = 0;
+
 var gameTimer = 0;
 
 
@@ -88,7 +83,6 @@ var game = {
         $('#quiz-question').html("<h2>I'm going to be the next question!!!</h2>");
         //add one to the currentQuestion variable
         currentQuestion++
-        console.log("The next question is "+currentQuestion);
         //if currentQuestion=questions.length then show results, else run the createQuiz function per usual
         if (currentQuestion === questions.length){
             game.showResults();
@@ -104,13 +98,18 @@ var game = {
         console.log(e.currentTarget.dataset.isCorrect);
         
         
+        //clear the timer from the screen and clear the countdown with clearInterval
+        $('#timer').html("");
+        clearInterval(gameTimer);
 
         //if the answer clicked isCorrect dataset is "true" then run the a correct function, else run an incorrect function to display info and then move on to the next question
         if (e.currentTarget.dataset.isCorrect === "true"){
             $('#quiz-question').html("<h2>That's right! " + e.currentTarget.dataset.name + ' is correct.</h2>');
+            numCorrect++;
         } else {
             $('#quiz-question').html("<h2>That's incorrect!</h2>");
             $('#quiz-question').append("<h2>" + questions[currentQuestion].correctAnswer + ' was correct.</h2>');
+            numIncorrect++;
         }
 
         //setTimeout to move to next question after 3 seconds
@@ -126,6 +125,7 @@ var game = {
         //display that time is up and the correct answer
         $('#quiz-question').html("<h2>Time's up!</h2>");
         $('#quiz-question').append("<h2>" + questions[currentQuestion].correctAnswer + ' was correct.</h2>');
+        numUnanswered++;
 
         //setTimeout to move to next question after 3 seconds
         setTimeout(game.nextQuestion, 3000);
@@ -134,22 +134,23 @@ var game = {
 
     showResults: function() {
         $('#quiz-question').html("<h2>Nice work! Here's the results.</h2>");
-
+        $('#quiz-question').append("<h2>Correct Answers: " + numCorrect + "</h2>");
+        $('#quiz-question').append("<h2>Incorrect Answers: " + numIncorrect + "</h2>");
+        $('#quiz-question').append("<h2>Unanswered: " + numUnanswered + "</h2>");
+        $('#quiz-question').append("<button id='reset'>Reset</button>");
     },
 
     resetGame: function() {
+        currentQuestion = 0;
+        numCorrect = 0;
+        numIncorrect = 0;
+        numUnanswered = 0;
 
+        game.createQuiz();
     }
 
 };
 
 
 
-
-
-
-
-
-
-
-
+});
