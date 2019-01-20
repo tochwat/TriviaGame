@@ -32,76 +32,85 @@ var gameTimer = 0;
 //array of object literals to hold all of the quiz questions - 8 questions
 var questions = [
     {
-        question: "I am question 1",
+        question: "Why did President Theodore Roosevelt establish the national forest and park systems in the early 20th century?",
         answers: [
-            "Answer a",
-            "Answer b",
-            "Answer c"
+            "To create more areas for the establishment of American Indian reservations",
+            "To clear the timberlands for use as industrial areas",
+            "To manage the use of resources and control industrial development in wilderness areas",
+            "To stimulate development of a tourist industry to help bring revenue to the states"
         ],
-        correctAnswer: "Answer a"
+        correctAnswer: "To manage the use of resources and control industrial development in wilderness areas"
     },
     {
-        question: "I am question 2?!",
+        question: "Which of the following was NOT acquired by the United States at the end of the Spanish-American War?",
         answers: [
-            "Answer a",
-            "Answer b",
-            "Answer c"
+            "Puerto Rico",
+            "The Phillipines",
+            "Cuba",
+            "Guam"
         ],
-        correctAnswer: "Answer b"
+        correctAnswer: "Cuba"
     },
     {
-        question: "I am question 3",
+        question: "The Boxer Rebellion of 1900 is BEST associated with which of the following foreign policy concepts in United States History?",
         answers: [
-            "Answer a",
-            "Answer b",
-            "Answer c"
+            "The Open Door Policy",
+            "The Good Neighbor Policy",
+            "The Truman Doctrine",
+            "The Marshall Plan"
+
         ],
-        correctAnswer: "Answer c"
+        correctAnswer: "The Open Door Policy"
     },
     {
-        question: "I am question 4",
+        question: "Who was the sixteenth President of the United States of America?",
         answers: [
-            "Answer a",
-            "Answer b",
-            "Answer c"
+            "Abraham Lincoln",
+            "John Quincy Adams",
+            "Millard Fillmore",
+            "James Buchanan"
         ],
-        correctAnswer: "Answer a"
+        correctAnswer: "Abraham Lincoln"
     },
     {
-        question: "I am question 5",
+        question: "Independence Day was first established as a holiday by Congress in what year?",
         answers: [
-            "Answer a",
-            "Answer b",
-            "Answer c"
+            "1853",
+            "1776",
+            "1938",
+            "1870"
         ],
-        correctAnswer: "Answer a"
+        correctAnswer: "1870"
     },
     {
-        question: "I am question 6",
+        question: "Who was the first president to live in the White House?",
         answers: [
-            "Answer a",
-            "Answer b",
-            "Answer c"
+            "John Adams",
+            "Thomas Jefferson",
+            "George Washington",
+            "James Madison"
         ],
-        correctAnswer: "Answer a"
+        correctAnswer: "John Adams"
     },
     {
-        question: "I am question 7",
+        question: "Where was the first Fourth of July celebration with a fireworks display held?",
         answers: [
-            "Answer a",
-            "Answer b",
-            "Answer c"
+            "New York, New York",
+            "Boston, Massachusetts",
+            "Washington, DC",
+            "Charleston, South Carolina"
         ],
-        correctAnswer: "Answer a"
+        correctAnswer: "Boston, Massachusetts"
     },
     {
-        question: "I am question 8",
+        question: "Who was the only President to serve more than two terms?",
         answers: [
-            "Answer a",
-            "Answer b",
-            "Answer c"
+            "Franklin D. Roosevelt",
+            "George Washington",
+            "Theodore Roosevelt",
+            "Ulysses S. Grant"
         ],
-        correctAnswer: "Answer a"
+        correctAnswer: "Franklin D. Roosevelt"
     },
 ]
 
@@ -112,9 +121,9 @@ var questions = [
 var game = {
     createQuiz: function () {
         //display the timer
-        $('#timer').html("<h3>Time Remaining: <span id='countdowntimer'>5 </span> seconds</h3>");
+        $('#timer').html("<h3>Time Remaining: <span id='countdowntimer'>20 </span> seconds</h3>");
         //start the timer
-        var timeRemaining = 5;
+        var timeRemaining = 20;
         gameTimer = setInterval(function(){
         timeRemaining--;
         $('#countdowntimer').text(timeRemaining);
@@ -126,7 +135,7 @@ var game = {
         //display the current question + answers and add the proper attributes to each answer
         $('#quiz-question').html('<h2>' + questions[currentQuestion].question + '</h2>');
         for (var i=0; i<questions[currentQuestion].answers.length; i++){
-            $('#quiz-question').append('<button class="answer-button" id="button-' + i + '" data-name="'+ questions[currentQuestion].answers[i]+'">' + questions[currentQuestion].answers[i] + '</button>');
+            $('#quiz-question').append('<div><button class="answer-button" id="button-' + i + '" data-name="'+ questions[currentQuestion].answers[i]+'">' + questions[currentQuestion].answers[i] + '</button></div>');
             if (questions[currentQuestion].answers[i] === questions[currentQuestion].correctAnswer){
                 $('#button-'+i).attr("data-is-correct",true);
             }
@@ -158,11 +167,18 @@ var game = {
 
         //if the answer clicked isCorrect dataset is "true" then run the a correct function, else run an incorrect function to display info and then move on to the next question
         if (e.currentTarget.dataset.isCorrect === "true"){
-            $('#quiz-question').html("<h2>That's right! " + e.currentTarget.dataset.name + ' is correct.</h2>');
+            $('#quiz-question').html("<h2>Correct! " + e.currentTarget.dataset.name + '</h2>');
             numCorrect++;
+
+            //enter code to append img to match the answer
+            // if()
+
+
+
+
         } else {
-            $('#quiz-question').html("<h2>That's incorrect!</h2>");
-            $('#quiz-question').append("<h2>" + questions[currentQuestion].correctAnswer + ' was correct.</h2>');
+            $('#quiz-question').html("<h2>Incorrect!</h2>");
+            $('#quiz-question').append("<h2>Correct Answer: " + questions[currentQuestion].correctAnswer + '</h2>');
             numIncorrect++;
         }
 
