@@ -74,6 +74,11 @@ p {
     margin: 15px;
 }
 
+.answer-img {
+    margin-bottom: 50px;
+
+}
+
 footer {
     text-align: center;
     background-color: #848484;
