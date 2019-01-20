@@ -9,6 +9,7 @@ const submitButton = document.getElementById('submit');
 $('#start').on('click', function() {
     $('#start').remove();
     game.createQuiz();
+    $('#info').css('display', 'block');
 });
 
 $(document).on('click', '#reset', function() {
@@ -39,28 +40,31 @@ var questions = [
             "To manage the use of resources and control industrial development in wilderness areas",
             "To stimulate development of a tourist industry to help bring revenue to the states"
         ],
-        correctAnswer: "To manage the use of resources and control industrial development in wilderness areas"
+        correctAnswer: "To manage the use of resources and control industrial development in wilderness areas",
+        image: "assets/images/yosemite.gif"
     },
     {
-        question: "Which of the following was NOT acquired by the United States at the end of the Spanish-American War?",
+        question: "What was the first national park in America?",
         answers: [
-            "Puerto Rico",
-            "The Phillipines",
-            "Cuba",
-            "Guam"
+            "Death Valley",
+            "Yosemite",
+            "Acadia",
+            "Yellowstone"
         ],
-        correctAnswer: "Cuba"
+        correctAnswer: "Yellowstone",
+        image: "assets/images/yellowstone.gif"
     },
     {
-        question: "The Boxer Rebellion of 1900 is BEST associated with which of the following foreign policy concepts in United States History?",
+        question: "Through which national park does the Continental Divide not pass?",
         answers: [
-            "The Open Door Policy",
-            "The Good Neighbor Policy",
-            "The Truman Doctrine",
-            "The Marshall Plan"
+            "Yellowstone",
+            "Yosemite",
+            "Rocky Mountain",
+            "Glacier"
 
         ],
-        correctAnswer: "The Open Door Policy"
+        correctAnswer: "Yosemite",
+        image: "assets/images/yosemite2.gif"
     },
     {
         question: "Who was the sixteenth President of the United States of America?",
@@ -70,7 +74,8 @@ var questions = [
             "Millard Fillmore",
             "James Buchanan"
         ],
-        correctAnswer: "Abraham Lincoln"
+        correctAnswer: "Abraham Lincoln",
+        image: "assets/images/lincoln.gif"
     },
     {
         question: "Independence Day was first established as a holiday by Congress in what year?",
@@ -80,7 +85,8 @@ var questions = [
             "1938",
             "1870"
         ],
-        correctAnswer: "1870"
+        correctAnswer: "1870",
+        image: "assets/images/independence.gif"
     },
     {
         question: "Who was the first president to live in the White House?",
@@ -90,7 +96,8 @@ var questions = [
             "George Washington",
             "James Madison"
         ],
-        correctAnswer: "John Adams"
+        correctAnswer: "John Adams",
+        image: "assets/images/john-adams.jpg"
     },
     {
         question: "Where was the first Fourth of July celebration with a fireworks display held?",
@@ -100,7 +107,8 @@ var questions = [
             "Washington, DC",
             "Charleston, South Carolina"
         ],
-        correctAnswer: "Boston, Massachusetts"
+        correctAnswer: "Boston, Massachusetts",
+        image: "assets/images/4thofjuly.gif"
     },
     {
         question: "Who was the only President to serve more than two terms?",
@@ -110,7 +118,8 @@ var questions = [
             "Theodore Roosevelt",
             "Ulysses S. Grant"
         ],
-        correctAnswer: "Franklin D. Roosevelt"
+        correctAnswer: "Franklin D. Roosevelt",
+        image: "assets/images/roosevelt.gif"
     },
 ]
 
@@ -135,7 +144,7 @@ var game = {
         //display the current question + answers and add the proper attributes to each answer
         $('#quiz-question').html('<h2>' + questions[currentQuestion].question + '</h2>');
         for (var i=0; i<questions[currentQuestion].answers.length; i++){
-            $('#quiz-question').append('<div><button class="answer-button" id="button-' + i + '" data-name="'+ questions[currentQuestion].answers[i]+'">' + questions[currentQuestion].answers[i] + '</button></div>');
+            $('#quiz-question').append('<div><button type="button" class="btn btn-primary btn-lg btn-block answer-button" id="button-' + i + '" data-name="'+ questions[currentQuestion].answers[i]+'">' + questions[currentQuestion].answers[i] + '</button></div>');
             if (questions[currentQuestion].answers[i] === questions[currentQuestion].correctAnswer){
                 $('#button-'+i).attr("data-is-correct",true);
             }
@@ -168,22 +177,24 @@ var game = {
         //if the answer clicked isCorrect dataset is "true" then run the a correct function, else run an incorrect function to display info and then move on to the next question
         if (e.currentTarget.dataset.isCorrect === "true"){
             $('#quiz-question').html("<h2>Correct! " + e.currentTarget.dataset.name + '</h2>');
+            //append img to match the answer
+            $('#quiz-question').append("<div class='answer-img-block'><img class='answer-img' src=" + questions[currentQuestion].image + "></div>");
+
             numCorrect++;
-
-            //enter code to append img to match the answer
-            // if()
-
-
-
+            console.log("Correct total: " + numCorrect);
 
         } else {
             $('#quiz-question').html("<h2>Incorrect!</h2>");
             $('#quiz-question').append("<h2>Correct Answer: " + questions[currentQuestion].correctAnswer + '</h2>');
+            //append img to match the answer
+            $('#quiz-question').append("<div class='answer-img-block'><img class='answer-img' src=" + questions[currentQuestion].image + "></div>");
+
             numIncorrect++;
+            console.log("Incorrect total: " + numIncorrect);
         }
 
-        //setTimeout to move to next question after 3 seconds
-        setTimeout(game.nextQuestion, 3000);
+        //setTimeout to move to next question after 5 seconds
+        setTimeout(game.nextQuestion, 5000);
 
     },
 
@@ -195,7 +206,11 @@ var game = {
         //display that time is up and the correct answer
         $('#quiz-question').html("<h2>Time's up!</h2>");
         $('#quiz-question').append("<h2>" + questions[currentQuestion].correctAnswer + ' was correct.</h2>');
+        //append img to match the answer
+        $('#quiz-question').append("<div class='answer-img-block'><img class='answer-img' src=" + questions[currentQuestion].image + "></div>");
+
         numUnanswered++;
+        console.log("Unanswered total: " + numUnanswered);
 
         //setTimeout to move to next question after 3 seconds
         setTimeout(game.nextQuestion, 3000);
@@ -207,7 +222,7 @@ var game = {
         $('#quiz-question').append("<h2>Correct Answers: " + numCorrect + "</h2>");
         $('#quiz-question').append("<h2>Incorrect Answers: " + numIncorrect + "</h2>");
         $('#quiz-question').append("<h2>Unanswered: " + numUnanswered + "</h2>");
-        $('#quiz-question').append("<button id='reset'>Reset</button>");
+        $('#quiz-question').append("<button id='reset' class='btn btn-primary'>Reset</button>");
     },
 
     resetGame: function() {
